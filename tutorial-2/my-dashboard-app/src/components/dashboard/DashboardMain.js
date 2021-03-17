@@ -10,7 +10,7 @@ import '@gooddata/sdk-ui-filters/styles/css/main.css';
 
 const DashboardMain = () => {
     // This is used to identifiy the data set we will use for all date filtering - better explanatoin ??
-    const DATASET = Ldm.DateDatasets.Date;
+    const DATASET = Ldm.DateDatasets.Date.identifier;
 
     // We enumerate all of the measures we want to display in our headline components, as well as their corresponding previous
     // period measures.
@@ -108,7 +108,6 @@ const DashboardMain = () => {
                 <InsightView
                     insight={Ldm.Insights.RevenueByProductCategoryTable}
                     filters={dateFilter ? [dateFilter] : []}
-                    grow
                 />
             </div>
         </div>
