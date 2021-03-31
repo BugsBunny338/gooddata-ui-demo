@@ -10,7 +10,10 @@ const DashboardAreaChart = ({ measures, viewBy, stackBy, filters }) => {
 
     const [result, setResult] = React.useState(null);
 
-    const dimensions = newTwoDimensional([MeasureGroupIdentifier], [Ldm.ProductCategory]);
+    const dimensions = newTwoDimensional(
+        [Ldm.ProductCategory],
+        [Ldm.DateDatasets.Date.MonthYear.Long, MeasureGroupIdentifier],
+    );
 
     const fetchData = async () => {
         // debugger;
@@ -18,16 +21,16 @@ const DashboardAreaChart = ({ measures, viewBy, stackBy, filters }) => {
             const result = await backend
                 .workspace(workspace)
                 .execution()
-                .forItems([Ldm.Revenue, Ldm.ProductCategory, Ldm.DateWeekSunSatYear.WkQtrYear_1], filters)
+                .forItems([Ldm.Revenue, Ldm.ProductCategory, Ldm.DateDatasets.Date.MonthYear.Long], filters)
                 // .withSorting(...sorting)
-                // .withDimensions([newDimension([Ldm.ProductCategory])])
+                .withDimensions(...dimensions)
                 .execute();
 
             // const firstPage = await result.readWindow([0, 0], [10, 10]);
             const allData = await result.readAll();
 
-            console.log('yep we got a result');
-            debugger;
+            console.log('yep we got a result', allData);
+            // debugger;
         } catch (error) {
             console.log('Yep, we got an error ' + error);
         }
