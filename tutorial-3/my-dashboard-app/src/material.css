@@ -1,0 +1,31 @@
+.headline .headline-primary-item .headline-value,
+.headline .headline-secondary-item .headline-value,
+.headline .headline-compare-section-item .headline-value-wrapper,
+.headline .headline-compare-section,
+.viz-legend .series-item .series-name,
+.viz-legend .series-item .series-text,
+.viz-legend .series-axis-indicator .series-name,
+.viz-legend .series-axis-indicator .series-text,
+.gd-table-component .ag-theme-balham,
+.ag-header,
+.gd-date-filter-button .button-title::after,
+.gd-date-filter-button .button-subtitle::after,
+.gd-date-filter-button,
+.gd-extended-date-filter-body .gd-filter-list-item,
+.gd-list-item.gd-list-item-header,
+.gd-extended-date-filter-actions .gd-button,
+.highcharts-axis-title text tspan {
+    font-family: 'Roboto' !important;
+}
+
+.gd-extended-date-filter-actions .gd-button {
+    text-transform: uppercase;
+}
+
+.target-bl.self-tl.overlay-wrapper {
+    width: 335px;
+}
+
+.gd-date-filter-button .button-subtitle:after {
+    font-family: 'Indigo';
+}
