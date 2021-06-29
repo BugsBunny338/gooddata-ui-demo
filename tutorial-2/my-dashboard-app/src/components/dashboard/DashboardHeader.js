@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
     },
-    shop: {
+    bold: {
         fontWeight: 800,
     },
 }));
@@ -44,7 +44,7 @@ const DashboardHeader = () => {
                     <ArrowBack style={{ color: '#FFF', fontSize: 30 }} />
                 </IconButton>
                 <Typography variant="h5" className={classes.title}>
-                    <span className={classes.shop}>GoodData.UI Demo</span>
+                    <span className={classes.bold}>GoodData.UI Demo</span>
                     <span> — Building Basic Dashboards</span>
                 </Typography>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
