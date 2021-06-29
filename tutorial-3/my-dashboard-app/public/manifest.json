@@ -1,6 +1,6 @@
 {
-    "short_name": "GoodData App",
-    "name": "Create GoodData App Sample",
+    "short_name": "GoodData.UI Demo - Making Dashboards Interactive",
+    "name": "GoodData.UI Demo - Making Dashboards Interactive",
     "icons": [
         {
             "src": "favicon.ico",

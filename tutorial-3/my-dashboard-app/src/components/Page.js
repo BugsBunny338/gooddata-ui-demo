@@ -6,7 +6,12 @@ import Footer from "./Footer";
 
 import styles from "./Page.module.scss";
 
-const Page = ({ children, className = null, mainClassName = null, title = "GoodData App" }) => {
+const Page = ({
+    children,
+    className = null,
+    mainClassName = null,
+    title = "GoodData.UI Demo - Making Dashboards Interactive",
+}) => {
     return (
         <div className={cx(styles.Page, className)}>
             <Helmet>
