@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { HashRouter as Router, Route, Redirect } from "react-router-dom";
 
 import { WorkspaceProvider } from "../contexts/Workspace";
 import Login from "./Login";
@@ -23,12 +23,13 @@ const AppRouter = () => {
             <Router>
                 {/* WorkspaceProvider depends on Router so it must be nested */}
                 <WorkspaceProvider>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/welcome" component={Welcome} />
+                    <Route exact path="/" component={Welcome} />
+                    <Route exact path="/home" component={Home} />
                     <Route exact path="/my-dashboard" component={MyDashboard} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/logout" component={Logout} />
                     <RedirectIfNotLoggedIn />
+                    <Redirect to="/my-dashboard" />
                 </WorkspaceProvider>
             </Router>
         </div>
