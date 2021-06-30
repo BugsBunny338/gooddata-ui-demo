@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -38,15 +38,8 @@ const AppListItems = [
     { label: "Explore", icon: <ExploreIcon /> },
 ];
 
-const DashboardDrawer = ({ handleItemSelected = dimension => {} }) => {
+const DashboardDrawer = ({ dimension, setDimension }) => {
     const classes = useStyles();
-
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
-    const handleListItemClick = (event, item, index) => {
-        setSelectedIndex(index);
-        handleItemSelected(item);
-    };
 
     return (
         <div>
@@ -60,12 +53,12 @@ const DashboardDrawer = ({ handleItemSelected = dimension => {} }) => {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                     <List>
-                        {DashboardListItems.map((item, index) => (
+                        {DashboardListItems.map(item => (
                             <ListItem
                                 button
                                 key={item.label}
-                                selected={selectedIndex === index}
-                                onClick={event => handleListItemClick(event, item, index)}
+                                selected={dimension === item}
+                                onClick={() => setDimension(item)}
                             >
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.label} />
