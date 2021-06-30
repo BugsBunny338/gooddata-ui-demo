@@ -23,7 +23,7 @@ const DashboardMain = ({ dimensionItem }) => {
     // if they were kept in separate objects.
     const [filter, setFilter] = useState({ attributeFilter: null, dimension: dimensionItem.dimension });
     const [breadCrumbItems, setBreadCrumbItems] = useState([dimensionItem]);
-    const [chartDateGrain, setChartDateGrain] = useState([Ldm.DateMonth.Short]);
+    const [chartDateGrain, setChartDateGrain] = useState([Ldm.DateDatasets.Date.Month.Short]);
 
     useEffect(() => {
         console.log("resetting dimension  to " + dimensionItem.dimension.attribute.displayForm.identifier);
@@ -63,19 +63,20 @@ const DashboardMain = ({ dimensionItem }) => {
 
     // When the user clicks on the date filter "apply" button we execute the following:
     const onApplyDateFilter = (dateFilterOption, excludeCurrentPeriod) => {
-        let grain = Ldm.DateMonth.Short;
+        let grain = Ldm.DateDatasets.Date.Month.Short;
         if (
             (dateFilterOption.granularity === GRAIN_DAY && dateFilterOption.from > -32) ||
             (dateFilterOption.granularity === GRAIN_MONTH && dateFilterOption.from > -2)
         ) {
-            grain = Ldm.DateDate.MmDdYyyy;
+            grain = Ldm.DateDatasets.Date.Date.MmDdYyyy;
         } else if (
             (dateFilterOption.granularity === GRAIN_DAY && dateFilterOption.from > -180) ||
             (dateFilterOption.granularity === GRAIN_MONTH && dateFilterOption.from > -7) ||
             (dateFilterOption.granularity === GRAIN_QUARTER && dateFilterOption.from > -3)
         ) {
-            grain = Ldm.DateWeekSunSatYear.WkQtrYear_1;
+            grain = Ldm.DateDatasets.Date.WeekSunSatYear.WkQtrYear_1;
         }
+
         setChartDateGrain(grain);
         setDateFilterOptions(dateFilterOption);
         setExcludeCurrentPeriod(excludeCurrentPeriod);
