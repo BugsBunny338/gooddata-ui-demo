@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -17,7 +16,6 @@ import * as Ldm from "../../ldm/full";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
@@ -40,20 +38,19 @@ const AppListItems = [
     { label: "Explore", icon: <ExploreIcon /> },
 ];
 
-const DashboardDrawer = ({handleItemSelected = (dimension) => {} }) => {
+const DashboardDrawer = ({ handleItemSelected = dimension => {} }) => {
     const classes = useStyles();
 
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     const handleListItemClick = (event, item, index) => {
-      console.log("choosing = " + item.dimension.attribute.displayForm.identifier)
+        console.log("choosing = " + item.dimension.attribute.displayForm.identifier);
         setSelectedIndex(index);
         handleItemSelected(item);
     };
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
+        <div>
             <Drawer
                 className={classes.drawer}
                 variant="permanent"
