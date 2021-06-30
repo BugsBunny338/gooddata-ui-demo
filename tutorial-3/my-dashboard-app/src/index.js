@@ -6,7 +6,6 @@ import * as serviceWorker from "./serviceWorker";
 import { AppProviders } from "./contexts";
 
 import "./index.scss";
-import "./material.css";
 import "@gooddata/sdk-ui-charts/styles/css/main.css";
 import "@gooddata/sdk-ui-filters/styles/css/main.css";
 import "@gooddata/sdk-ui-geo/styles/css/main.css";

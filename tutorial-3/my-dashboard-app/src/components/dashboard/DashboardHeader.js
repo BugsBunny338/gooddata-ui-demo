@@ -24,12 +24,15 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
     },
+    bold: {
+        fontWeight: 800,
+    },
 }));
 
 const DashboardHeader = () => {
     const classes = useStyles();
     return (
-        <AppBar position="fixed" className={classes.appBar} styles={{ top: "60" }}>
+        <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
                 <IconButton
                     edge="start"
@@ -41,8 +44,8 @@ const DashboardHeader = () => {
                     <ArrowBack style={{ color: "#FFF", fontSize: 30 }} />
                 </IconButton>
                 <Typography variant="h5" className={classes.title}>
-                    <span style={{ fontWeight: 800 }}>GoodData.UI Demo</span>
-                    <span style={{ fontWeight: 300, marginLeft: 3 }}> — Making Dashboards Interactive</span>
+                    <span className={classes.bold}>GoodData.UI Demo</span>
+                    <span> — Making Dashboards Interactive</span>
                 </Typography>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                     <MenuIcon />

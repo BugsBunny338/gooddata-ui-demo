@@ -34,12 +34,12 @@ const DashboardMain = ({ dimensionItem }) => {
     // We enumerate all of the measures we want to display in our headline components, as well as their corresponding previous
     // period measures.
     const revenue = Ldm.Revenue;
-    const revenuePrevious = newPreviousPeriodMeasure(revenue, [{ dataSet: DATASET, periodsAgo: 1 }], (m) =>
+    const revenuePrevious = newPreviousPeriodMeasure(revenue, [{ dataSet: DATASET, periodsAgo: 1 }], m =>
         m.alias("Previous Period"),
     );
 
     const orders = Ldm.NrOfValidOrders;
-    const ordersPrevious = newPreviousPeriodMeasure(orders, [{ dataSet: DATASET, periodsAgo: 1 }], (m) =>
+    const ordersPrevious = newPreviousPeriodMeasure(orders, [{ dataSet: DATASET, periodsAgo: 1 }], m =>
         m.alias("Previous Period"),
     );
 
@@ -47,11 +47,11 @@ const DashboardMain = ({ dimensionItem }) => {
     const returnRevenuePrevious = newPreviousPeriodMeasure(
         returnRevenue,
         [{ dataSet: DATASET, periodsAgo: 1 }],
-        (m) => m.alias("Previous Period"),
+        m => m.alias("Previous Period"),
     );
 
     const returns = Ldm.NrOrdersReturns;
-    const returnsPrevious = newPreviousPeriodMeasure(returns, [{ dataSet: DATASET, periodsAgo: 1 }], (m) =>
+    const returnsPrevious = newPreviousPeriodMeasure(returns, [{ dataSet: DATASET, periodsAgo: 1 }], m =>
         m.alias("Previous Period"),
     );
     const [selectedMeasure, setSelectedMeasure] = useState(revenue);
@@ -91,11 +91,11 @@ const DashboardMain = ({ dimensionItem }) => {
         excludeCurrentPeriod,
     );
 
-    const changeMeasure = (measure) => {
+    const changeMeasure = measure => {
         setSelectedMeasure(measure);
     };
 
-    const handleDrillDown = (drillDimensionName) => {
+    const handleDrillDown = drillDimensionName => {
         // Create a new dimension grain based on current active dimension
         // (Product Category -> Product Id)
         // (Customer Region -> Customer State)
@@ -118,7 +118,7 @@ const DashboardMain = ({ dimensionItem }) => {
         );
     };
 
-    const removeBreadCrumbChildren = (parentIndex) => {
+    const removeBreadCrumbChildren = parentIndex => {
         if (parentIndex === breadCrumbItems.length - 1) return;
         breadCrumbItems.splice(parentIndex + 1, breadCrumbItems.length - parentIndex);
         setFilter({ attributeFilter: null, dimension: breadCrumbItems[parentIndex].dimension });
@@ -159,8 +159,8 @@ const DashboardMain = ({ dimensionItem }) => {
 
             <div className={styles.KPIs}>
                 <div
-                    className={cx(styles.KPI, selectedMeasure === revenue ? styles.Active : null)}
-                    onClick={(e) => changeMeasure(revenue)}
+                    className={cx(styles.KPI, { [styles.Active]: selectedMeasure === revenue })}
+                    onClick={e => changeMeasure(revenue)}
                 >
                     <span className={styles.Title}>Revenue</span>
                     <Headline
@@ -170,8 +170,8 @@ const DashboardMain = ({ dimensionItem }) => {
                     />
                 </div>
                 <div
-                    className={cx(styles.KPI, selectedMeasure === orders ? styles.Active : null)}
-                    onClick={(e) => changeMeasure(orders)}
+                    className={cx(styles.KPI, { [styles.Active]: selectedMeasure === orders })}
+                    onClick={e => changeMeasure(orders)}
                 >
                     <span className={styles.Title}>Orders</span>
                     <Headline
@@ -181,8 +181,8 @@ const DashboardMain = ({ dimensionItem }) => {
                     />
                 </div>
                 <div
-                    className={cx(styles.KPI, selectedMeasure === returnRevenue ? styles.Active : null)}
-                    onClick={(e) => changeMeasure(returnRevenue)}
+                    className={cx(styles.KPI, { [styles.Active]: selectedMeasure === returnRevenue })}
+                    onClick={e => changeMeasure(returnRevenue)}
                 >
                     <span className={styles.Title}>Return Amount</span>
                     <Headline
@@ -192,8 +192,8 @@ const DashboardMain = ({ dimensionItem }) => {
                     />
                 </div>
                 <div
-                    className={cx(styles.KPI, selectedMeasure === returns ? styles.Active : null)}
-                    onClick={(e) => changeMeasure(returns)}
+                    className={cx(styles.KPI, { [styles.Active]: selectedMeasure === returns })}
+                    onClick={e => changeMeasure(returns)}
                 >
                     <span className={styles.Title}>Returns</span>
                     <Headline
@@ -214,7 +214,7 @@ const DashboardMain = ({ dimensionItem }) => {
                             ? [HeaderPredicates.localIdentifierMatch(selectedMeasure.measure.localIdentifier)]
                             : []
                     }
-                    onDrill={(drillEvent) =>
+                    onDrill={drillEvent =>
                         handleDrillDown(
                             drillEvent.drillContext.intersection[2].header.attributeHeaderItem.name,
                         )
@@ -236,7 +236,7 @@ const DashboardMain = ({ dimensionItem }) => {
                             : filter.dimension === Ldm.CustomerRegion
                             ? [Ldm.CustomerRegion, Ldm.CustomerState]
                             : [Ldm.CustomerState]
-                         /*   
+                         /*
                         filter.dimension === Ldm.CustomerRegion || Ldm.CustomerState
                             ? [Ldm.CustomerRegion, Ldm.CustomerState]
                             : [filter.dimension] */
@@ -263,7 +263,7 @@ const DashboardMain = ({ dimensionItem }) => {
                               ]
                             : []
                     }
-                    onDrill={(drillEvent) => handleDrillDown(drillEvent.drillContext.row[0].name)}
+                    onDrill={drillEvent => handleDrillDown(drillEvent.drillContext.row[0].name)}
                 />
             </div>
         </div>
