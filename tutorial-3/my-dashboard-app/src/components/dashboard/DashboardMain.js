@@ -20,16 +20,15 @@ const DashboardMain = ({ dimensionItem }) => {
     // We use this object to hold state on our filters for dimension selection and drill down.
     // We keep both of these in the same object so we don't trigger mutliple state updates to our child components
     // if they were kept in separate objects.
-    const [attributeFilter, setAttributeFilter] = useState({
-        attributeFilter: null,
-        dimension: dimensionItem.dimension,
-    });
+    const [attributeFilter, setAttributeFilter] = useState(null);
+    const [dimension, setDimension] = useState(dimensionItem.dimension);
     const [breadCrumbItems, setBreadCrumbItems] = useState([dimensionItem]);
     const [chartDateGrain, setChartDateGrain] = useState(Ldm.DateDatasets.Date.Month.Short);
 
     useEffect(() => {
         setBreadCrumbItems([dimensionItem]);
-        setAttributeFilter({ attributeFilter: null, dimension: dimensionItem.dimension });
+        setAttributeFilter(null);
+        setDimension(dimensionItem.dimension);
     }, [dimensionItem]);
 
     // We enumerate all of the measures we want to display in our headline components, as well as their corresponding previous
@@ -105,25 +104,25 @@ const DashboardMain = ({ dimensionItem }) => {
             dimensionItem.dimension === Ldm.ProductCategory ? Ldm.Product.Default : Ldm.CustomerState;
 
         // Create filter based on drill dimension name
-        const newFilter = newPositiveAttributeFilter(attributeFilter.dimension, [drillDimensionName]);
+        const newFilter = newPositiveAttributeFilter(dimension, [drillDimensionName]);
 
-        setAttributeFilter({ attributeFilter: newFilter, dimension: newDimension });
+        setAttributeFilter(newFilter);
+        setDimension(newDimension);
         setBreadCrumbItems([dimensionItem, { label: drillDimensionName, dimension: null, icon: null }]);
     };
 
     const isDrillable = () => {
         return (
-            attributeFilter.dimension.attribute.localIdentifier ===
-                Ldm.ProductCategory.attribute.localIdentifier ||
-            attributeFilter.dimension.attribute.localIdentifier ===
-                Ldm.CustomerRegion.attribute.localIdentifier
+            dimension.attribute.localIdentifier === Ldm.ProductCategory.attribute.localIdentifier ||
+            dimension.attribute.localIdentifier === Ldm.CustomerRegion.attribute.localIdentifier
         );
     };
 
     const removeBreadCrumbChildren = parentIndex => {
         if (parentIndex === breadCrumbItems.length - 1) return;
         breadCrumbItems.splice(parentIndex + 1, breadCrumbItems.length - parentIndex);
-        setAttributeFilter({ attributeFilter: null, dimension: breadCrumbItems[parentIndex].dimension });
+        setAttributeFilter(null);
+        setDimension(breadCrumbItems[parentIndex].dimension);
         setBreadCrumbItems(breadCrumbItems);
     };
 
@@ -208,8 +207,8 @@ const DashboardMain = ({ dimensionItem }) => {
                 <AreaChart
                     measures={[selectedMeasure]}
                     viewBy={chartDateGrain}
-                    stackBy={attributeFilter.dimension}
-                    filters={[dateFilter, attributeFilter.attributeFilter]}
+                    stackBy={dimension}
+                    filters={[dateFilter, attributeFilter]}
                     drillableItems={
                         isDrillable()
                             ? [HeaderPredicates.localIdentifierMatch(selectedMeasure.measure.localIdentifier)]
@@ -226,11 +225,11 @@ const DashboardMain = ({ dimensionItem }) => {
                 <PivotTable
                     measures={[Ldm.Revenue, Ldm.NrOfValidOrders, Ldm.RevenueReturns, Ldm.NrOrdersReturns]}
                     rows={
-                        attributeFilter.dimension === Ldm.Product.Default
+                        dimension === Ldm.Product.Default
                             ? [Ldm.ProductCategory, Ldm.Product.Default]
-                            : attributeFilter.dimension === Ldm.CustomerState
+                            : dimension === Ldm.CustomerState
                             ? [Ldm.CustomerRegion, Ldm.CustomerState]
-                            : [attributeFilter.dimension]
+                            : [dimension]
                     }
                     config={{
                         columnSizing: {
@@ -238,13 +237,11 @@ const DashboardMain = ({ dimensionItem }) => {
                             growToFit: true,
                         },
                     }}
-                    filters={[dateFilter, attributeFilter.attributeFilter]}
+                    filters={[dateFilter, attributeFilter]}
                     drillableItems={
                         isDrillable()
                             ? [
-                                  HeaderPredicates.localIdentifierMatch(
-                                      attributeFilter.dimension.attribute.localIdentifier,
-                                  ),
+                                  HeaderPredicates.localIdentifierMatch(dimension.attribute.localIdentifier),
                                   HeaderPredicates.localIdentifierMatch(revenue.measure.localIdentifier),
                                   HeaderPredicates.localIdentifierMatch(orders.measure.localIdentifier),
                                   HeaderPredicates.localIdentifierMatch(

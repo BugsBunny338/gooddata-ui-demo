@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -41,7 +41,7 @@ const AppListItems = [
 const DashboardDrawer = ({ handleItemSelected = dimension => {} }) => {
     const classes = useStyles();
 
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleListItemClick = (event, item, index) => {
         setSelectedIndex(index);
