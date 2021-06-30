@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 const MyDashboard = () => {
     const classes = useStyles();
-    const [selectedDimensionItem, setSelectedDimensionItem] = React.useState(DashboardListItems[0]);
+    const [selectedDimensionItem, setSelectedDimensionItem] = useState(DashboardListItems[0]);
 
     const handleItemSelected = item => {
         //We create a new attribute object here to make sure we always trigger state change
