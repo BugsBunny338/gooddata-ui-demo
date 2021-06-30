@@ -26,7 +26,6 @@ const DashboardMain = ({ dimensionItem }) => {
     const [chartDateGrain, setChartDateGrain] = useState(Ldm.DateDatasets.Date.Month.Short);
 
     useEffect(() => {
-        console.log("resetting dimension  to " + dimensionItem.dimension.attribute.displayForm.identifier);
         setBreadCrumbItems([dimensionItem]);
         setFilter({ attributeFilter: null, dimension: dimensionItem.dimension });
     }, [dimensionItem]);
@@ -111,8 +110,6 @@ const DashboardMain = ({ dimensionItem }) => {
     };
 
     const isDrillable = () => {
-        // console.log("checking to see if we can drill");
-        // debugger;
         return (
             filter.dimension.attribute.localIdentifier === Ldm.ProductCategory.attribute.localIdentifier ||
             filter.dimension.attribute.localIdentifier === Ldm.CustomerRegion.attribute.localIdentifier
@@ -133,7 +130,6 @@ const DashboardMain = ({ dimensionItem }) => {
                     <DashboardBreadcrumbs
                         breadCrumbItems={breadCrumbItems}
                         onClick={index => {
-                            console.log("index = " + index);
                             removeBreadCrumbChildren(index);
                         }}
                         onDelete={index => {
@@ -231,16 +227,6 @@ const DashboardMain = ({ dimensionItem }) => {
                             : filter.dimension === Ldm.CustomerState
                             ? [Ldm.CustomerRegion, Ldm.CustomerState]
                             : [filter.dimension]
-                        /*
-                        filter.dimension === Ldm.ProductCategory || Ldm.ProductID ?
-                            [filter.dimension]
-                            : filter.dimension === Ldm.CustomerRegion
-                            ? [Ldm.CustomerRegion, Ldm.CustomerState]
-                            : [Ldm.CustomerState]
-                         /*
-                        filter.dimension === Ldm.CustomerRegion || Ldm.CustomerState
-                            ? [Ldm.CustomerRegion, Ldm.CustomerState]
-                            : [filter.dimension] */
                     }
                     config={{
                         columnSizing: {

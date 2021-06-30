@@ -24,25 +24,22 @@ const useStyles = makeStyles(theme => ({
 
 const MyDashboard = () => {
     const classes = useStyles();
-
-    console.log(DashboardListItems[0].label)
-
     const [selectedDimensionItem, setSelectedDimensionItem] = React.useState(DashboardListItems[0]);
 
-    const handleItemSelected = (item) => {
+    const handleItemSelected = item => {
         //We create a new attribute object here to make sure we always trigger state change
-        setSelectedDimensionItem({label: item.label, dimension: item.dimension, icon: item.icon});
-    }
+        setSelectedDimensionItem({ label: item.label, dimension: item.dimension, icon: item.icon });
+    };
 
     return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <DashboardHeader />
-                <DashboardDrawer handleItemSelected={handleItemSelected}/>
-                <main className={classes.content}>
-                    <DashboardMain dimensionItem={selectedDimensionItem} />
-                </main>
-            </div>
+        <div className={classes.root}>
+            <CssBaseline />
+            <DashboardHeader />
+            <DashboardDrawer handleItemSelected={handleItemSelected} />
+            <main className={classes.content}>
+                <DashboardMain dimensionItem={selectedDimensionItem} />
+            </main>
+        </div>
     );
 };
 

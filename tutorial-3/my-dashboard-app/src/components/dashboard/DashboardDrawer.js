@@ -44,7 +44,6 @@ const DashboardDrawer = ({ handleItemSelected = dimension => {} }) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     const handleListItemClick = (event, item, index) => {
-        console.log("choosing = " + item.dimension.attribute.displayForm.identifier);
         setSelectedIndex(index);
         handleItemSelected(item);
     };
