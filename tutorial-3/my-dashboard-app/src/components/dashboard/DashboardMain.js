@@ -23,7 +23,7 @@ const DashboardMain = ({ dimensionItem }) => {
     // if they were kept in separate objects.
     const [filter, setFilter] = useState({ attributeFilter: null, dimension: dimensionItem.dimension });
     const [breadCrumbItems, setBreadCrumbItems] = useState([dimensionItem]);
-    const [chartDateGrain, setChartDateGrain] = useState([Ldm.DateDatasets.Date.Month.Short]);
+    const [chartDateGrain, setChartDateGrain] = useState(Ldm.DateDatasets.Date.Month.Short);
 
     useEffect(() => {
         console.log("resetting dimension  to " + dimensionItem.dimension.attribute.displayForm.identifier);
@@ -132,11 +132,11 @@ const DashboardMain = ({ dimensionItem }) => {
                 <div className={styles.BreadcrumbGroup}>
                     <DashboardBreadcrumbs
                         breadCrumbItems={breadCrumbItems}
-                        onClick={(item, index) => {
+                        onClick={index => {
                             console.log("index = " + index);
                             removeBreadCrumbChildren(index);
                         }}
-                        onDelete={(item, index) => {
+                        onDelete={index => {
                             removeBreadCrumbChildren(index - 1);
                         }}
                     />
