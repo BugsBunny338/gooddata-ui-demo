@@ -9,7 +9,6 @@ import { PivotTable } from "@gooddata/sdk-ui-pivot";
 import { HeaderPredicates } from "@gooddata/sdk-ui";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import DashboardBreadcrumbs from "./DashboardBreadcrumbs";
-import "@gooddata/sdk-ui-filters/styles/css/main.css";
 
 const DashboardMain = ({ dimensionItem }) => {
     // This is used to identifiy the data set we will use for all date filtering - better explanatoin ??
