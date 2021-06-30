@@ -13,7 +13,7 @@ import "@gooddata/sdk-ui-filters/styles/css/main.css";
 
 const DashboardMain = ({ dimensionItem }) => {
     // This is used to identifiy the data set we will use for all date filtering - better explanatoin ??
-    const DATASET = "date.dataset.dt";
+    const DATASET = Ldm.DateDatasets.Date.identifier;
     const GRAIN_DAY = "GDC.time.date";
     const GRAIN_MONTH = "GDC.time.month";
     const GRAIN_QUARTER = "GDC.time.quarter";
