@@ -11,7 +11,7 @@ import {
 import { DateFilter, DateFilterHelpers, defaultDateFilterOptions } from "@gooddata/sdk-ui-filters";
 import { Headline, AreaChart } from "@gooddata/sdk-ui-charts";
 import { PivotTable } from "@gooddata/sdk-ui-pivot";
-import { HeaderPredicates } from "@gooddata/sdk-ui";
+import { HeaderPredicates, isDrillIntersectionAttributeItem } from "@gooddata/sdk-ui";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import DashboardBreadcrumbs from "./DashboardBreadcrumbs";
 
@@ -220,11 +220,15 @@ const DashboardMain = ({ dimensionItem }) => {
                             ? [HeaderPredicates.identifierMatch(measureIdentifier(selectedMeasure))]
                             : []
                     }
-                    onDrill={drillEvent =>
-                        handleDrillDown(
-                            drillEvent.drillContext.intersection[2].header.attributeHeaderItem.name,
-                        )
-                    }
+                    onDrill={drillEvent => {
+                        if (
+                            isDrillIntersectionAttributeItem(drillEvent.drillContext.intersection[2].header)
+                        ) {
+                            handleDrillDown(
+                                drillEvent.drillContext.intersection[2].header.attributeHeaderItem.name,
+                            );
+                        }
+                    }}
                 />
             </div>
             <div className={styles.Table}>
