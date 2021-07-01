@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-
 import { newPreviousPeriodMeasure } from '@gooddata/sdk-model';
 import { DateFilter, DateFilterHelpers, defaultDateFilterOptions } from '@gooddata/sdk-ui-filters';
 import { Headline } from '@gooddata/sdk-ui-charts';
 import { InsightView } from '@gooddata/sdk-ui-ext';
+
 import * as Ldm from '../../ldm/full';
 import styles from './DashboardMain.module.scss';
-import '@gooddata/sdk-ui-filters/styles/css/main.css';
 
 const DashboardMain = () => {
     // This is used to identifiy the data set we will use for all date filtering - better explanatoin ??
