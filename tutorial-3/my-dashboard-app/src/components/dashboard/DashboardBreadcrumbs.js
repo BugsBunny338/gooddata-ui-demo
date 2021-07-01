@@ -24,7 +24,7 @@ const StyledBreadcrumb = withStyles(theme => ({
     },
 }))(Chip);
 
-const DashboardBreadcrumbs = ({ breadCrumbItems, onClick = i => {}, onDelete = i => {} }) => {
+const DashboardBreadcrumbs = ({ breadCrumbItems, onClick, onDelete }) => {
     return (
         <Breadcrumbs separator="/" aria-label="breadcrumb">
             {breadCrumbItems.map((item, index) => (

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./DashboardMain.module.scss";
 import cx from "classnames";
 import * as Ldm from "../../ldm/full";
-import { newPreviousPeriodMeasure, newPositiveAttributeFilter } from "@gooddata/sdk-model";
+import {
+    newPreviousPeriodMeasure,
+    newPositiveAttributeFilter,
+    attributeIdentifier,
+    measureIdentifier,
+} from "@gooddata/sdk-model";
 import { DateFilter, DateFilterHelpers, defaultDateFilterOptions } from "@gooddata/sdk-ui-filters";
 import { Headline, AreaChart } from "@gooddata/sdk-ui-charts";
 import { PivotTable } from "@gooddata/sdk-ui-pivot";
@@ -21,14 +26,14 @@ const DashboardMain = ({ dimensionItem }) => {
     // We keep both of these in the same object so we don't trigger mutliple state updates to our child components
     // if they were kept in separate objects.
     const [attributeFilter, setAttributeFilter] = useState(null);
-    const [dimension, setDimension] = useState(dimensionItem.dimension);
+    const [dimension, setDimension] = useState(dimensionItem.attribute);
     const [breadCrumbItems, setBreadCrumbItems] = useState([dimensionItem]);
     const [chartDateGrain, setChartDateGrain] = useState(Ldm.DateDatasets.Date.Month.Short);
 
     useEffect(() => {
         setBreadCrumbItems([dimensionItem]);
         setAttributeFilter(null);
-        setDimension(dimensionItem.dimension);
+        setDimension(dimensionItem.attribute);
     }, [dimensionItem]);
 
     // We enumerate all of the measures we want to display in our headline components, as well as their corresponding previous
@@ -92,16 +97,12 @@ const DashboardMain = ({ dimensionItem }) => {
         excludeCurrentPeriod,
     );
 
-    const changeMeasure = measure => {
-        setSelectedMeasure(measure);
-    };
-
     const handleDrillDown = drillDimensionName => {
         // Create a new dimension grain based on current active dimension
         // (Product Category -> Product Id)
         // (Customer Region -> Customer State)
         const newDimension =
-            dimensionItem.dimension === Ldm.ProductCategory ? Ldm.Product.Default : Ldm.CustomerState;
+            dimensionItem.attribute === Ldm.ProductCategory ? Ldm.Product.Default : Ldm.CustomerState;
 
         // Create filter based on drill dimension name
         const newFilter = newPositiveAttributeFilter(dimension, [drillDimensionName]);
@@ -112,17 +113,22 @@ const DashboardMain = ({ dimensionItem }) => {
     };
 
     const isDrillable = () => {
+        // Only one level deep is drillable here, this returns false
+        // if drill is curently already applied
+
         return (
-            dimension.attribute.localIdentifier === Ldm.ProductCategory.attribute.localIdentifier ||
-            dimension.attribute.localIdentifier === Ldm.CustomerRegion.attribute.localIdentifier
+            attributeIdentifier(dimension) === attributeIdentifier(Ldm.ProductCategory) ||
+            attributeIdentifier(dimension) === attributeIdentifier(Ldm.CustomerRegion)
         );
     };
 
     const removeBreadCrumbChildren = parentIndex => {
         if (parentIndex === breadCrumbItems.length - 1) return;
+
         breadCrumbItems.splice(parentIndex + 1, breadCrumbItems.length - parentIndex);
+
         setAttributeFilter(null);
-        setDimension(breadCrumbItems[parentIndex].dimension);
+        setDimension(breadCrumbItems[parentIndex].attribute);
         setBreadCrumbItems(breadCrumbItems);
     };
 
@@ -160,7 +166,7 @@ const DashboardMain = ({ dimensionItem }) => {
             <div className={styles.KPIs}>
                 <div
                     className={cx(styles.KPI, { [styles.Active]: selectedMeasure === revenue })}
-                    onClick={e => changeMeasure(revenue)}
+                    onClick={() => setSelectedMeasure(revenue)}
                 >
                     <span className={styles.Title}>Revenue</span>
                     <Headline
@@ -171,7 +177,7 @@ const DashboardMain = ({ dimensionItem }) => {
                 </div>
                 <div
                     className={cx(styles.KPI, { [styles.Active]: selectedMeasure === orders })}
-                    onClick={e => changeMeasure(orders)}
+                    onClick={() => setSelectedMeasure(orders)}
                 >
                     <span className={styles.Title}>Orders</span>
                     <Headline
@@ -182,7 +188,7 @@ const DashboardMain = ({ dimensionItem }) => {
                 </div>
                 <div
                     className={cx(styles.KPI, { [styles.Active]: selectedMeasure === returnRevenue })}
-                    onClick={e => changeMeasure(returnRevenue)}
+                    onClick={() => setSelectedMeasure(returnRevenue)}
                 >
                     <span className={styles.Title}>Return Amount</span>
                     <Headline
@@ -193,7 +199,7 @@ const DashboardMain = ({ dimensionItem }) => {
                 </div>
                 <div
                     className={cx(styles.KPI, { [styles.Active]: selectedMeasure === returns })}
-                    onClick={e => changeMeasure(returns)}
+                    onClick={() => setSelectedMeasure(returns)}
                 >
                     <span className={styles.Title}>Returns</span>
                     <Headline
@@ -211,7 +217,7 @@ const DashboardMain = ({ dimensionItem }) => {
                     filters={[dateFilter, attributeFilter]}
                     drillableItems={
                         isDrillable()
-                            ? [HeaderPredicates.localIdentifierMatch(selectedMeasure.measure.localIdentifier)]
+                            ? [HeaderPredicates.identifierMatch(measureIdentifier(selectedMeasure))]
                             : []
                     }
                     onDrill={drillEvent =>
@@ -240,15 +246,7 @@ const DashboardMain = ({ dimensionItem }) => {
                     filters={[dateFilter, attributeFilter]}
                     drillableItems={
                         isDrillable()
-                            ? [
-                                  HeaderPredicates.localIdentifierMatch(dimension.attribute.localIdentifier),
-                                  HeaderPredicates.localIdentifierMatch(revenue.measure.localIdentifier),
-                                  HeaderPredicates.localIdentifierMatch(orders.measure.localIdentifier),
-                                  HeaderPredicates.localIdentifierMatch(
-                                      returnRevenue.measure.localIdentifier,
-                                  ),
-                                  HeaderPredicates.localIdentifierMatch(returns.measure.localIdentifier),
-                              ]
+                            ? [HeaderPredicates.identifierMatch(attributeIdentifier(dimension))]
                             : []
                     }
                     onDrill={drillEvent => handleDrillDown(drillEvent.drillContext.row[0].name)}

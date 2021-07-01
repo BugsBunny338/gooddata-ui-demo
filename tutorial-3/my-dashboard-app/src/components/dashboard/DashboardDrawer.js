@@ -29,8 +29,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const DashboardListItems = [
-    { label: "Product Category", dimension: Ldm.ProductCategory, icon: <CategoryIcon /> },
-    { label: "Customer Region", dimension: Ldm.CustomerRegion, icon: <RegionIcon /> },
+    { label: "Product Category", attribute: Ldm.ProductCategory, icon: <CategoryIcon /> },
+    { label: "Customer Region", attribute: Ldm.CustomerRegion, icon: <RegionIcon /> },
 ];
 
 const AppListItems = [
