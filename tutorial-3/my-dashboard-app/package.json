@@ -34,7 +34,9 @@
         "testcafe-backend": "rm -R ./build & yarn build & serve -l 5000 build",
         "testcafe": "cross-env TEST_BACKEND=http://localhost:5000 ./scripts/run-testcafe.js",
         "testcafe-visual": "cross-env TEST_MODE=visual ./scripts/run-testcafe.js",
-        "refresh-ldm": "node ./scripts/refresh-ldm.js"
+        "refresh-ldm": "node ./scripts/refresh-ldm.js",
+        "lint-dashboard": "eslint 'src/components/dashboard/*.{js,jsx}' 'src/routes/MyDashboard.js'",
+        "format": "prettier --write 'src/components/dashboard/*.{js,jsx}' 'src/routes/MyDashboard.js'"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -59,7 +61,7 @@
         "enzyme-adapter-react-16": "^1.14.0",
         "husky": "^3.0.0",
         "node-sass": "^4.13.1",
-        "prettier": "^1.18.2",
+        "prettier": "^2.2.1",
         "pretty-quick": "^1.11.1",
         "serve": "^11.2.0",
         "testcafe": "^1.5.0"

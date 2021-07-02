@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from "react";
-import styles from "./DashboardMain.module.scss";
-import cx from "classnames";
-import * as Ldm from "../../ldm/full";
+import React, { useState, useEffect } from 'react';
+import cx from 'classnames';
 import {
     newPreviousPeriodMeasure,
     newPositiveAttributeFilter,
     attributeIdentifier,
     measureIdentifier,
-} from "@gooddata/sdk-model";
-import { DateFilter, DateFilterHelpers, defaultDateFilterOptions } from "@gooddata/sdk-ui-filters";
-import { Headline, AreaChart } from "@gooddata/sdk-ui-charts";
-import { PivotTable } from "@gooddata/sdk-ui-pivot";
-import { HeaderPredicates, isDrillIntersectionAttributeItem } from "@gooddata/sdk-ui";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import DashboardBreadcrumbs from "./DashboardBreadcrumbs";
+} from '@gooddata/sdk-model';
+import { DateFilter, DateFilterHelpers, defaultDateFilterOptions } from '@gooddata/sdk-ui-filters';
+import { Headline, AreaChart } from '@gooddata/sdk-ui-charts';
+import { PivotTable } from '@gooddata/sdk-ui-pivot';
+import { HeaderPredicates, isDrillIntersectionAttributeItem } from '@gooddata/sdk-ui';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+
+import DashboardBreadcrumbs from './DashboardBreadcrumbs';
+import * as Ldm from '../../ldm/full';
+import styles from './DashboardMain.module.scss';
 
 const DashboardMain = ({ dimensionItem }) => {
     // This is used to identifiy the data set we will use for all date filtering - better explanatoin ??
     const DATASET = Ldm.DateDatasets.Date.identifier;
-    const GRAIN_DAY = "GDC.time.date";
-    const GRAIN_MONTH = "GDC.time.month";
-    const GRAIN_QUARTER = "GDC.time.quarter";
+    const GRAIN_DAY = 'GDC.time.date';
+    const GRAIN_MONTH = 'GDC.time.month';
+    const GRAIN_QUARTER = 'GDC.time.quarter';
 
     // We use this object to hold state on our filters for dimension selection and drill down.
     // We keep both of these in the same object so we don't trigger mutliple state updates to our child components
@@ -39,25 +40,25 @@ const DashboardMain = ({ dimensionItem }) => {
     // We enumerate all of the measures we want to display in our headline components, as well as their corresponding previous
     // period measures.
     const revenue = Ldm.Revenue;
-    const revenuePrevious = newPreviousPeriodMeasure(revenue, [{ dataSet: DATASET, periodsAgo: 1 }], m =>
-        m.alias("Previous Period"),
+    const revenuePrevious = newPreviousPeriodMeasure(revenue, [{ dataSet: DATASET, periodsAgo: 1 }], (m) =>
+        m.alias('Previous Period'),
     );
 
     const orders = Ldm.NrOfValidOrders;
-    const ordersPrevious = newPreviousPeriodMeasure(orders, [{ dataSet: DATASET, periodsAgo: 1 }], m =>
-        m.alias("Previous Period"),
+    const ordersPrevious = newPreviousPeriodMeasure(orders, [{ dataSet: DATASET, periodsAgo: 1 }], (m) =>
+        m.alias('Previous Period'),
     );
 
     const returnRevenue = Ldm.RevenueReturns;
     const returnRevenuePrevious = newPreviousPeriodMeasure(
         returnRevenue,
         [{ dataSet: DATASET, periodsAgo: 1 }],
-        m => m.alias("Previous Period"),
+        (m) => m.alias('Previous Period'),
     );
 
     const returns = Ldm.NrOrdersReturns;
-    const returnsPrevious = newPreviousPeriodMeasure(returns, [{ dataSet: DATASET, periodsAgo: 1 }], m =>
-        m.alias("Previous Period"),
+    const returnsPrevious = newPreviousPeriodMeasure(returns, [{ dataSet: DATASET, periodsAgo: 1 }], (m) =>
+        m.alias('Previous Period'),
     );
     const [selectedMeasure, setSelectedMeasure] = useState(revenue);
 
@@ -97,7 +98,7 @@ const DashboardMain = ({ dimensionItem }) => {
         excludeCurrentPeriod,
     );
 
-    const handleDrillDown = drillDimensionName => {
+    const handleDrillDown = (drillDimensionName) => {
         // Create a new dimension grain based on current active dimension
         // (Product Category -> Product Id)
         // (Customer Region -> Customer State)
@@ -122,7 +123,7 @@ const DashboardMain = ({ dimensionItem }) => {
         );
     };
 
-    const removeBreadCrumbChildren = parentIndex => {
+    const removeBreadCrumbChildren = (parentIndex) => {
         if (parentIndex === breadCrumbItems.length - 1) return;
 
         breadCrumbItems.splice(parentIndex + 1, breadCrumbItems.length - parentIndex);
@@ -138,10 +139,10 @@ const DashboardMain = ({ dimensionItem }) => {
                 <div className={styles.BreadcrumbGroup}>
                     <DashboardBreadcrumbs
                         breadCrumbItems={breadCrumbItems}
-                        onClick={index => {
+                        onClick={(index) => {
                             removeBreadCrumbChildren(index);
                         }}
-                        onDelete={index => {
+                        onDelete={(index) => {
                             removeBreadCrumbChildren(index - 1);
                         }}
                     />
@@ -220,7 +221,7 @@ const DashboardMain = ({ dimensionItem }) => {
                             ? [HeaderPredicates.identifierMatch(measureIdentifier(selectedMeasure))]
                             : []
                     }
-                    onDrill={drillEvent => {
+                    onDrill={(drillEvent) => {
                         if (
                             isDrillIntersectionAttributeItem(drillEvent.drillContext.intersection[2].header)
                         ) {
@@ -243,7 +244,7 @@ const DashboardMain = ({ dimensionItem }) => {
                     }
                     config={{
                         columnSizing: {
-                            defaultWidth: "autoresizeAll",
+                            defaultWidth: 'autoresizeAll',
                             growToFit: true,
                         },
                     }}
@@ -253,7 +254,7 @@ const DashboardMain = ({ dimensionItem }) => {
                             ? [HeaderPredicates.identifierMatch(attributeIdentifier(dimension))]
                             : []
                     }
-                    onDrill={drillEvent => handleDrillDown(drillEvent.drillContext.row[0].name)}
+                    onDrill={(drillEvent) => handleDrillDown(drillEvent.drillContext.row[0].name)}
                 />
             </div>
         </div>
